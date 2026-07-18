@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/setauto",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Configure automatic actions and thresholds via guided prompts"
+            }
+          }
+        ],
+        "send": {
+          "text": "/setauto"
+        }
+      }
+    ]
+  }
+]

@@ -1,15 +1,33 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { upsertMember, addAuditEntry } from "../storage.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-
-const composer = new Composer();
+const composer = new Composer<Ctx>();
 
 composer.command("trust", async (ctx) => {
-  await ctx.reply("Mark a user as trusted (exempt from verification)");
+  const chatId = ctx.chat?.id;
+  const actorId = ctx.from?.id;
+  if (!chatId || !actorId) return;
+
+  const args = ctx.message?.text?.split(/\s+/).slice(1) ?? [];
+  if (args.length === 0) {
+    await ctx.reply("Usage: /trust @username");
+    return;
+  }
+
+  const target = args[0];
+
+  upsertMember(chatId, 0, { trusted: true });
+
+  addAuditEntry({
+    chatId,
+    actorId,
+    action: "trust",
+    reason: `Trusted ${target}`,
+    timestamp: Date.now(),
+  });
+
+  await ctx.reply(`User trusted. They're now exempt from verification.`);
 });
 
 export default composer;

@@ -1,19 +1,60 @@
 [
   {
-    "name": "/setauto",
+    "name": "/setauto shows current settings",
     "steps": [
       {
+        "send": { "text": "/setauto" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Configure automatic actions and thresholds via guided prompts"
+              "text": "Current auto-moderation settings:\n\nVerification timeout: 300s\nSpam threshold: 5 messages\nAuto action: warn\n\nSend the new setting (e.g. \"timeout 600\" or \"action mute\"), or tap Cancel."
             }
           }
-        ],
-        "send": {
-          "text": "/setauto"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "setauto timeout flow",
+    "steps": [
+      {
+        "send": { "text": "/setauto" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Current auto-moderation settings:\n\nVerification timeout: 300s\nSpam threshold: 5 messages\nAuto action: warn\n\nSend the new setting (e.g. \"timeout 600\" or \"action mute\"), or tap Cancel."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "text": "timeout 600" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Verification timeout set to 600s."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "setauto cancel button works",
+    "steps": [
+      {
+        "send": { "callback": "setauto:cancel" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Cancelled. Tap a button to continue."
+            }
+          }
+        ]
       }
     ]
   }

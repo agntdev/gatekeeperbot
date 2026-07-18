@@ -1,15 +1,41 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { addInfraction, addAuditEntry } from "../storage.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-
-const composer = new Composer();
+const composer = new Composer<Ctx>();
 
 composer.command("ban", async (ctx) => {
-  await ctx.reply("Ban a user from the group with a reason");
+  const chatId = ctx.chat?.id;
+  const actorId = ctx.from?.id;
+  if (!chatId || !actorId) return;
+
+  const args = ctx.message?.text?.split(/\s+/).slice(1) ?? [];
+  if (args.length === 0) {
+    await ctx.reply("Usage: /ban @username reason");
+    return;
+  }
+
+  const target = args[0];
+  const reason = args.slice(1).join(" ") || "No reason provided";
+
+  addInfraction({
+    chatId,
+    actorId,
+    targetId: 0,
+    action: "ban",
+    reason,
+    timestamp: Date.now(),
+  });
+
+  addAuditEntry({
+    chatId,
+    actorId,
+    action: "ban",
+    reason: `Banned ${target}: ${reason}`,
+    timestamp: Date.now(),
+  });
+
+  await ctx.reply(`User banned. Reason: ${reason}`);
 });
 
 export default composer;

@@ -1,19 +1,33 @@
 [
   {
-    "name": "/stats",
+    "name": "/stats shows overview",
     "steps": [
       {
+        "send": { "text": "/stats" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Show overview of joins, verifications, and removals over a selected period"
+              "text": "Stats for the last 24h:\n\nJoins: 0\nModeration actions: none"
             }
           }
-        ],
-        "send": {
-          "text": "/stats"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "stats button shows overview",
+    "steps": [
+      {
+        "send": { "callback": "stats:show" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Stats for the last 24h:\n\nJoins: 0\nModeration actions: none"
+            }
+          }
+        ]
       }
     ]
   }

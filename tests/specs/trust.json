@@ -1,19 +1,33 @@
 [
   {
-    "name": "/trust",
+    "name": "/trust without args shows usage",
     "steps": [
       {
+        "send": { "text": "/trust" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Mark a user as trusted (exempt from verification)"
+              "text": "Usage: /trust @username"
             }
           }
-        ],
-        "send": {
-          "text": "/trust"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/trust with user confirms trust",
+    "steps": [
+      {
+        "send": { "text": "/trust @moderator" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "User trusted. They're now exempt from verification."
+            }
+          }
+        ]
       }
     ]
   }

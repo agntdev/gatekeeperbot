@@ -1,19 +1,33 @@
 [
   {
-    "name": "/kick",
+    "name": "/kick without args shows usage",
     "steps": [
       {
+        "send": { "text": "/kick" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Remove a user from the group with a reason"
+              "text": "Usage: /kick @username reason"
             }
           }
-        ],
-        "send": {
-          "text": "/kick"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/kick with reason confirms kick",
+    "steps": [
+      {
+        "send": { "text": "/kick @disruptor disruptive behavior" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "User kicked. Reason: disruptive behavior"
+            }
+          }
+        ]
       }
     ]
   }

@@ -1,19 +1,33 @@
 [
   {
-    "name": "/mute",
+    "name": "/mute without args shows usage",
     "steps": [
       {
+        "send": { "text": "/mute" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Mute a user for a specified duration with a reason"
+              "text": "Usage: /mute @username duration reason"
             }
           }
-        ],
-        "send": {
-          "text": "/mute"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/mute with args confirms mute",
+    "steps": [
+      {
+        "send": { "text": "/mute @flooder 1h flooding chat" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "User muted for 1h. Reason: flooding chat"
+            }
+          }
+        ]
       }
     ]
   }

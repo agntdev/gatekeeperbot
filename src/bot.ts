@@ -1,12 +1,15 @@
 import { Composer } from "grammy";
 import { readdirSync } from "node:fs";
 import { createBot, type BotContext } from "./toolkit/index.js";
+import { _resetStorage } from "./storage.js";
 
 // The per-chat session shape (ephemeral conversation state only). Extend as the
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  step?: string;
+  flowData?: string;
+  targetUserId?: number;
 }
 
 export type Ctx = BotContext<Session>;
@@ -18,6 +21,7 @@ export type Ctx = BotContext<Session>;
  * Composer — NEVER edit this file (concurrent feature PRs would conflict).
  */
 export async function buildBot(token: string) {
+  _resetStorage();
   const bot = createBot<Session>(token, {
     initial: () => ({}),
   });

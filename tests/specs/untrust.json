@@ -1,19 +1,33 @@
 [
   {
-    "name": "/untrust",
+    "name": "/untrust without args shows usage",
     "steps": [
       {
+        "send": { "text": "/untrust" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Remove trusted status from a user"
+              "text": "Usage: /untrust @username"
             }
           }
-        ],
-        "send": {
-          "text": "/untrust"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/untrust with user confirms untrust",
+    "steps": [
+      {
+        "send": { "text": "/untrust @moderator" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Trust removed. They'll need to verify like everyone else."
+            }
+          }
+        ]
       }
     ]
   }

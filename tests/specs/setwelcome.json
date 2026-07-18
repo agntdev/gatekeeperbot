@@ -1,19 +1,60 @@
 [
   {
-    "name": "/setwelcome",
+    "name": "/setwelcome shows current settings and asks for new input",
     "steps": [
       {
+        "send": { "text": "/setwelcome" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Edit the welcome message and rules via a guided flow"
+              "text": "Current welcome message:\n\nWelcome to the group! Please verify you're human by tapping the button below.\n\nCurrent rules:\nBe respectful. No spam. Follow the group rules.\n\nSend the new welcome message, or tap Cancel."
             }
           }
-        ],
-        "send": {
-          "text": "/setwelcome"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "setwelcome flow: send new message and confirm",
+    "steps": [
+      {
+        "send": { "text": "/setwelcome" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Current welcome message:\n\nWelcome to the group! Please verify you're human by tapping the button below.\n\nCurrent rules:\nBe respectful. No spam. Follow the group rules.\n\nSend the new welcome message, or tap Cancel."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "text": "Hello! Verify to join." },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Welcome message updated!"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "setwelcome cancel button works",
+    "steps": [
+      {
+        "send": { "callback": "setwelcome:cancel" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "Cancelled. Tap a button to continue."
+            }
+          }
+        ]
       }
     ]
   }

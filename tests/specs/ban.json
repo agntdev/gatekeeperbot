@@ -1,19 +1,33 @@
 [
   {
-    "name": "/ban",
+    "name": "/ban without args shows usage",
     "steps": [
       {
+        "send": { "text": "/ban" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Ban a user from the group with a reason"
+              "text": "Usage: /ban @username reason"
             }
           }
-        ],
-        "send": {
-          "text": "/ban"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/ban with reason confirms ban",
+    "steps": [
+      {
+        "send": { "text": "/ban @troll persistent trolling" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "User banned. Reason: persistent trolling"
+            }
+          }
+        ]
       }
     ]
   }

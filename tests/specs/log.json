@@ -1,19 +1,60 @@
 [
   {
-    "name": "/log",
+    "name": "/log with no entries shows empty state",
     "steps": [
       {
+        "send": { "text": "/log" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Show the last n moderation actions"
+              "text": "No moderation actions logged yet."
             }
           }
-        ],
-        "send": {
-          "text": "/log"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/log after a warn shows the entry",
+    "steps": [
+      {
+        "send": { "text": "/warn @user spam" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "User warned. Reason: spam"
+            }
+          }
+        ]
+      },
+      {
+        "send": { "text": "/log" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Last 1 moderation actions:\n\n1. warn: Warned @user: spam"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "log button shows empty state",
+    "steps": [
+      {
+        "send": { "callback": "log:show" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "No moderation actions logged yet."
+            }
+          }
+        ]
       }
     ]
   }

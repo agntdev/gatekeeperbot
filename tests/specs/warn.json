@@ -1,19 +1,33 @@
 [
   {
-    "name": "/warn",
+    "name": "/warn without args shows usage",
     "steps": [
       {
+        "send": { "text": "/warn" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Issue a warning to a user with a reason"
+              "text": "Usage: /warn @username reason"
             }
           }
-        ],
-        "send": {
-          "text": "/warn"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/warn with reason logs and confirms",
+    "steps": [
+      {
+        "send": { "text": "/warn @user spam" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "User warned. Reason: spam"
+            }
+          }
+        ]
       }
     ]
   }

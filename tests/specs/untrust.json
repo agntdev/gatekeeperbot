@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/untrust",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Remove trusted status from a user"
+            }
+          }
+        ],
+        "send": {
+          "text": "/untrust"
+        }
+      }
+    ]
+  }
+]

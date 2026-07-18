@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/setwelcome",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Edit the welcome message and rules via a guided flow"
+            }
+          }
+        ],
+        "send": {
+          "text": "/setwelcome"
+        }
+      }
+    ]
+  }
+]

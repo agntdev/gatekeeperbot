@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/stats",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Show overview of joins, verifications, and removals over a selected period"
+            }
+          }
+        ],
+        "send": {
+          "text": "/stats"
+        }
+      }
+    ]
+  }
+]

@@ -12,8 +12,7 @@ registerMainMenuItem({ label: "I'm human", data: "verify:confirm", order: 10 });
 
 const composer = new Composer<Ctx>();
 
-composer.callbackQuery("verify:confirm", async (ctx) => {
-  await ctx.answerCallbackQuery();
+async function handleVerify(ctx: Ctx) {
   const chatId = ctx.chat?.id;
   const userId = ctx.from?.id;
   if (!chatId || !userId) {
@@ -36,6 +35,15 @@ composer.callbackQuery("verify:confirm", async (ctx) => {
     timestamp: Date.now(),
   });
   await ctx.reply("You're verified! You can now participate in the group.");
+}
+
+composer.command("verify", async (ctx) => {
+  await handleVerify(ctx);
+});
+
+composer.callbackQuery("verify:confirm", async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await handleVerify(ctx);
 });
 
 export default composer;

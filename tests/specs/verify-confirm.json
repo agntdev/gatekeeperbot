@@ -1,5 +1,48 @@
 [
   {
+    "name": "/verify command confirms the user",
+    "steps": [
+      {
+        "send": { "text": "/verify" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "You're verified! You can now participate in the group."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/verify again shows already verified",
+    "steps": [
+      {
+        "send": { "text": "/verify" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "You're verified! You can now participate in the group."
+            }
+          }
+        ]
+      },
+      {
+        "send": { "text": "/verify" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "You're already verified. Welcome!"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
     "name": "tapping I'm human verifies the user",
     "steps": [
       {
